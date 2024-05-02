@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+# Service untuk menjalankan java-apps-spring-boot
+  java_app:
+    container_name: java_app
+    image: leokundxd/java_app:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db:5432/ringkasdb00
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=12345
+    depends_on:
+      - java_db
+
+#  Service untuk menjalakan dbPostgresSQL
+  java_db:
+    container_name: java_db
+    image: postgres:16.2
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ringkasdb00
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata: {}
